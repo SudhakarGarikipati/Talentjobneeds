@@ -1,0 +1,10 @@
+@WebApi_HostAddress = https://localhost:7212/api
+
+post {{WebApi_HostAddress}}/Auth/login
+Accept: application/json
+Content-type: application/json
+{
+  "email":"user@gmail.com",
+  "password":"User@12345678"
+}
+###
