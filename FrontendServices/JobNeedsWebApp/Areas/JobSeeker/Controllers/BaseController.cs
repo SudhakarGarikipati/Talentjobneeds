@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace JobNeedsWebApp.Areas.JobSeeker.Controllers
+namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
 {
-    [Area("JobSeeker")]
+    [Area("Jobseeker")]
     public class BaseController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

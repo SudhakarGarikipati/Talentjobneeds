@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace JobNeedsWebApp.Areas.JobSeeker.Controllers
+namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
 {
     public class HomeController : BaseController
     {

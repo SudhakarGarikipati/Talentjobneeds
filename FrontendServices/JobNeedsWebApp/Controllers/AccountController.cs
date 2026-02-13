@@ -44,9 +44,9 @@ namespace JobNeedsWebApp.Controllers
                     {
                         return RedirectToAction("Index", "Home", new { area = "Employer" });
                     }
-                    else if (user.Roles.Contains("JobSeeker"))
+                    else if (user.Roles.Contains("Jobseeker"))
                     {
-                        return RedirectToAction("Index", "Home", new { area = "JobSeeker" });
+                        return RedirectToAction("Index", "Home", new { area = "Jobseeker" });
                     }
                 }
                 return RedirectToAction("Index", "Home");
