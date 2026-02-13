@@ -14,29 +14,78 @@ public partial class AuthServiceDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Admin> Admins { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE488BD10827C");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Admins)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Admins__UserId__19DFD96B");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.Property(e => e.Name).IsRequired();
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1AEE9BEAE4");
+
+            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B6160B10FD3F3").IsUnique();
+
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.RoleName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.Property(e => e.Email).IsRequired();
-            entity.Property(e => e.Name).IsRequired();
-            entity.Property(e => e.Password).IsRequired();
-            entity.Property(e => e.PhoneNumber).IsRequired();
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C7F2BE359");
+
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053423E84C80").IsUnique();
+
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FirstName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.LastName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false);
 
             entity.HasMany(d => d.Roles).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(
                     "UserRole",
-                    r => r.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                    r => r.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__UserRoles__RoleI__2180FB33"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__UserRoles__UserI__22751F6C"),
                     j =>
                     {
                         j.HasKey("UserId", "RoleId");

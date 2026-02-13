@@ -4,7 +4,7 @@ post {{WebApi_HostAddress}}/Auth/login
 Accept: application/json
 Content-type: application/json
 {
-  "email":"user@gmail.com",
-  "password":"User@12345678"
+  "email":"jobseeker@gmail.com",
+  "password":"Jobseeker@12345678"
 }
 ###

@@ -31,39 +31,39 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CartItems]    Script Date: 08-04-2025 17:33:07 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CartItems](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[PlanId] [int] NOT NULL,
-	[UnitPrice] [decimal](18, 2) NOT NULL,
-	[Quantity] [int] NOT NULL,
-	[CartId] [bigint] NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Carts]    Script Date: 08-04-2025 17:33:07 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Carts](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[EmployerId] [bigint] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[IsActive] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+-- /****** Object:  Table [dbo].[CartItems]    Script Date: 08-04-2025 17:33:07 ******/
+-- SET ANSI_NULLS ON
+-- GO
+-- SET QUOTED_IDENTIFIER ON
+-- GO
+-- CREATE TABLE [dbo].[CartItems](
+	-- [Id] [int] IDENTITY(1,1) NOT NULL,
+	-- [PlanId] [int] NOT NULL,
+	-- [UnitPrice] [decimal](18, 2) NOT NULL,
+	-- [Quantity] [int] NOT NULL,
+	-- [CartId] [bigint] NOT NULL,
+-- PRIMARY KEY CLUSTERED 
+-- (
+	-- [Id] ASC
+-- )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+-- ) ON [PRIMARY]
+-- GO
+-- /****** Object:  Table [dbo].[Carts]    Script Date: 08-04-2025 17:33:07 ******/
+-- SET ANSI_NULLS ON
+-- GO
+-- SET QUOTED_IDENTIFIER ON
+-- GO
+-- CREATE TABLE [dbo].[Carts](
+	-- [Id] [bigint] IDENTITY(1,1) NOT NULL,
+	-- [EmployerId] [bigint] NOT NULL,
+	-- [CreatedDate] [datetime] NOT NULL,
+	-- [IsActive] [bit] NOT NULL,
+-- PRIMARY KEY CLUSTERED 
+-- (
+	-- [Id] ASC
+-- )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+-- ) ON [PRIMARY]
+-- GO
 /****** Object:  Table [dbo].[EmployerJobs]    Script Date: 08-04-2025 17:33:07 ******/
 SET ANSI_NULLS ON
 GO
@@ -352,8 +352,8 @@ UNIQUE NONCLUSTERED
 GO
 ALTER TABLE [dbo].[AuditLogs] ADD  DEFAULT (getdate()) FOR [OperationDate]
 GO
-ALTER TABLE [dbo].[Carts] ADD  DEFAULT (getdate()) FOR [CreatedDate]
-GO
+-- ALTER TABLE [dbo].[Carts] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+-- GO
 ALTER TABLE [dbo].[ErrorLogs] ADD  DEFAULT (getdate()) FOR [LogDate]
 GO
 ALTER TABLE [dbo].[JobApplications] ADD  CONSTRAINT [DF__JobApplic__Appli__571DF1D5]  DEFAULT (getdate()) FOR [ApplicationDate]
@@ -384,11 +384,11 @@ GO
 ALTER TABLE [dbo].[AuditLogs]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [dbo].[Users] ([UserId])
 GO
-ALTER TABLE [dbo].[CartItems]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Cart] FOREIGN KEY([CartId])
-REFERENCES [dbo].[Carts] ([Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CartItems] CHECK CONSTRAINT [FK_CartItem_Cart]
+-- ALTER TABLE [dbo].[CartItems]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Cart] FOREIGN KEY([CartId])
+-- REFERENCES [dbo].[Carts] ([Id])
+-- ON DELETE CASCADE
+-- GO
+-- ALTER TABLE [dbo].[CartItems] CHECK CONSTRAINT [FK_CartItem_Cart]
 GO
 ALTER TABLE [dbo].[EmployerJobs]  WITH CHECK ADD FOREIGN KEY([EmployerId])
 REFERENCES [dbo].[Employers] ([EmployerId])

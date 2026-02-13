@@ -1,10 +1,13 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
+# "email":"user@gmail.com",
+# "password":"User@12345678"
+
 @WebApi_HostAddress = https://localhost:7000
 
 post {{WebApi_HostAddress}}/jobneeds/login
 Accept: application/json
 Content-type: application/json
 {
-  "email":"user@gmail.com",
-  "password":"User@12345678"
+  "email":"jobseeker@gmail.com",
+  "password":"Jobseeker@12345678"
 }

@@ -33,15 +33,9 @@ namespace JobNeedsWebApp.Controllers
             try
             {
                 var user = await _authHttpClient.LoginAsync(loginViewModel);
-                //// Store user information in session or cookie as needed
-                //HttpContext.Session.SetString("UserId", user.UserId.ToString());
-                //HttpContext.Session.SetString("FirstName", user.FirstName);
-                //HttpContext.Session.SetString("LastName", user.LastName);
-                //HttpContext.Session.SetString("Email", user.Email);
-                //HttpContext.Session.SetString("Token", user.Token);
+                // Store user information in session or cookie as needed
                 if (user != null && user.Roles.Count > 0)
                 {
-                    HttpContext.Session.SetString("UserRole", user.Roles[0]);
                     if (user.Roles.Contains("Admin"))
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });

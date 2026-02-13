@@ -82,7 +82,7 @@ namespace Application.Service.Implementation
             // Implement token generation logic here (e.g., using JWT)
             var claims = new[]
              {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Name),
+                new Claim(JwtRegisteredClaimNames.Sub, user.FirstName+user.LastName),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

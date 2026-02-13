@@ -11,7 +11,9 @@ namespace Application.DTOs
     {
         public long UserId { get; set; }
 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -20,6 +22,10 @@ namespace Application.DTOs
         public IList<string> Roles { get; set; }
 
         public string Token { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public bool? IsActive { get; set; }
 
     }
 }

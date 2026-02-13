@@ -16,7 +16,7 @@ namespace Application.Mappings
             config.NewConfig<SignupDto, User>()
                 .Map(dest => dest.Roles, src => new List<string> { src.Role });
             config.NewConfig<User, UserDto>()
-                .Map(dest => dest.Roles, src => src.Roles.Select(r => r.Name).ToList());
+                .Map(dest => dest.Roles, src => src.Roles.Select(r => r.RoleName).ToList());
             config.NewConfig<LoginDto, User>()
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.Password, src => src.Password);

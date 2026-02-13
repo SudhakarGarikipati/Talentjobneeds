@@ -10,7 +10,10 @@ namespace Application.DTOs
     public class SignupDto
     {
         [Required(ErrorMessage = "Name is required.")]
-        public string Name { get; set; }
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
