@@ -23,7 +23,7 @@ namespace Infrastructure.Persistance.Repositories
             var user = _authServiceDbContext.Users
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Email == email);
-            return user ?? throw new Exception("User not found");
+            return user;
         }
 
         public Task<bool> Register(User user, string roleName)

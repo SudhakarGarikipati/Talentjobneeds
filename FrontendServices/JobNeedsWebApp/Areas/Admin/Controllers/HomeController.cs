@@ -2,7 +2,7 @@
 
 namespace JobNeedsWebApp.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

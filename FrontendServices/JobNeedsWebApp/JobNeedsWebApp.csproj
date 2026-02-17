@@ -17,4 +17,8 @@
     <Folder Include="Areas\Jobseeker\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Jobneeds.png" />
+  </ItemGroup>
+
 </Project>

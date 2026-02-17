@@ -29,6 +29,5 @@ namespace Application.DTOs
 
         [Required(ErrorMessage = "Role is required.")]
         public string Role { get; set; }
-
     }
 }

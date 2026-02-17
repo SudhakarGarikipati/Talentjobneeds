@@ -41,10 +41,6 @@ namespace Application.Service.Implementation
         public Task<UserDto> GetUserByMailId(string mailId)
         {
             var user = _authServiceRepo.GetUserByEmail(mailId);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
             return Task.FromResult(_mapper.Map<UserDto>(user));
         }
 

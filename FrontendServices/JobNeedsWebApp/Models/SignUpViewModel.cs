@@ -26,7 +26,9 @@ namespace JobNeedsWebApp.Models
 
         [Required(ErrorMessage = "Confirm password is requried..")]
         [Compare("Password", ErrorMessage = "Passwords do not match..")]
-        public string ConfirmPassword { get; set; } 
+        public string ConfirmPassword { get; set; }
+
+        public string Role { get; set; } = "Jobseeker";
 
     }
 }

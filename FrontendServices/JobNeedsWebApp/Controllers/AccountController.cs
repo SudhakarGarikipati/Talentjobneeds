@@ -17,10 +17,34 @@ namespace JobNeedsWebApp.Controllers
             _authHttpClient = authHttpClient;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpViewModel signUpViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(signUpViewModel);
+            }
+            try
+            {
+                var registered = await _authHttpClient.RegisterAsync(signUpViewModel);
+                if (registered )
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
+                return View(signUpViewModel);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(signUpViewModel);
+            }
+        }
 
         public IActionResult Login()
         {

@@ -13,8 +13,7 @@ namespace Application.Mappings
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<SignupDto, User>()
-                .Map(dest => dest.Roles, src => new List<string> { src.Role });
+            config.NewConfig<SignupDto, User>();
             config.NewConfig<User, UserDto>()
                 .Map(dest => dest.Roles, src => src.Roles.Select(r => r.RoleName).ToList());
             config.NewConfig<LoginDto, User>()
