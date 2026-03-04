@@ -1,0 +1,10 @@
+@JobsModule.API_HostAddress = https://localhost:7014/api
+
+GET {{JobsModule.API_HostAddress}}/job/GetAllJobs
+Accept: application/json
+Content-type: application/json
+{
+
+}
+
+###

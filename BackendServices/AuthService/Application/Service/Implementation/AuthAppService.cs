@@ -5,14 +5,9 @@ using Domain.Interfaces;
 using MapsterMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Application.Service.Implementation
