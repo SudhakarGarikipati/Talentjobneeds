@@ -11,6 +11,18 @@
       ],
       "UpstreamPathTemplate": "/jobneeds/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/job/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7014
+        }
+      ],
+      "UpstreamPathTemplate": "/job/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
     }
   ]
 }
