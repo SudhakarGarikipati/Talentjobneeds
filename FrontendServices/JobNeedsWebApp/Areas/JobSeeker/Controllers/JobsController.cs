@@ -3,6 +3,7 @@ using JobNeedsWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
 {
@@ -20,10 +21,19 @@ namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
         public async Task<IActionResult> Apply(long jobId)
         {
             var userData = User.FindFirst(ClaimTypes.UserData)?.Value;
+            if(userData == null)
+            {
+                return View(model: "Unable to complete application");
+            }
+            var user = JsonSerializer.Deserialize<UserViewModel>(userData);
+            if (user == null)
+            {
+                return View(model: "Unable to complete application");
+            }
             var applyJobDto = new ApplyJobViewModel
             {
                 JobId = jobId,
-                UserId = 2
+                UserId = user.UserId
             };
             var result = await _jobsHttpClient.ApplyForJobAsync(applyJobDto);
             return View(model:result);

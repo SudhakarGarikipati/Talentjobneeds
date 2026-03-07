@@ -31,6 +31,7 @@ namespace JobsModule.Application.Service.Implementation
 
         public async Task<EnumJobApplyStatus> ApplyForJobAsync(ApplyJobDto applyJobDto)
         {
+            
             var status = await _jobRepository.ApplyForJobAsync(applyJobDto.JobId, applyJobDto.UserId);
             if (status)
             {

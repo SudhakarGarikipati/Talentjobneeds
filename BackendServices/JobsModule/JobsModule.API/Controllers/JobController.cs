@@ -9,9 +9,11 @@ namespace JobsModule.API.Controllers
     public class JobController : Controller
     {
         private readonly IJobService _jobService;
-        public JobController(IJobService jobService)
+        private readonly IJobApplicationService _jobApplicationService;
+        public JobController(IJobService jobService, IJobApplicationService jobApplicationService)
         {
             _jobService = jobService;
+            _jobApplicationService = jobApplicationService;
         }
 
         [HttpGet]

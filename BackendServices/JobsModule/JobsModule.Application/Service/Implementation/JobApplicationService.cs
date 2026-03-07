@@ -28,5 +28,6 @@ namespace JobsModule.Application.Service.Implementation
             var jobApplication = _jobApplicationRepository.GetByIdAsync(applicationId);
             return _mapper.Map<JobApplicationDTO>(jobApplication);
         }
+
     }
 }

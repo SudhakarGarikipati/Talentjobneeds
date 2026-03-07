@@ -1,6 +1,5 @@
 ﻿using Common.Domain.Enums;
 using JobNeedsWebApp.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace JobNeedsWebApp.HttpClients
 {
