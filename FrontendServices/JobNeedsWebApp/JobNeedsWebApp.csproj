@@ -21,4 +21,8 @@
     <None Include="wwwroot\Jobneeds.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BackendServices\Common\Common.Domain\Common.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

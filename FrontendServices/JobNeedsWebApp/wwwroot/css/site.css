@@ -29,3 +29,36 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.clean-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    background: #fff;
+}
+
+.clean-table thead {
+    background: #5d5555;
+    border: 2px solid #e1e5ea;
+}
+
+.clean-table th {
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.clean-table td {
+    padding: 12px 14px;
+    border: 1px solid #ececec;
+    color: #444;
+    vertical-align: middle;
+}
+
+.clean-table tr:hover {
+    background: #f9fbfd;
+    transition: background 0.2s ease-in-out;
+}
+

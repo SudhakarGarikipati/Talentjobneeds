@@ -35,6 +35,7 @@ namespace JobsModule.Application.Service.Queries
                           select new JobApplicationDTO
                           {
                               ApplicationId = ja.ApplicationId,
+                              JobId = ja.JobId,
                               UserId = ja.UserId,
                               JobTitle = j.JobTitle,
                               UserName = u.FirstName,

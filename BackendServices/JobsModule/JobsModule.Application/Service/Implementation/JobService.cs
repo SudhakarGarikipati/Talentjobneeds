@@ -29,9 +29,9 @@ namespace JobsModule.Application.Service.Implementation
             return true;
         }
 
-        public async Task<EnumJobApplyStatus> ApplyForJobAsync(long jobId, long userId)
+        public async Task<EnumJobApplyStatus> ApplyForJobAsync(ApplyJobDto applyJobDto)
         {
-            var status = await _jobRepository.ApplyForJobAsync(jobId, userId);
+            var status = await _jobRepository.ApplyForJobAsync(applyJobDto.JobId, applyJobDto.UserId);
             if (status)
             {
                 return EnumJobApplyStatus.Applied;
@@ -88,9 +88,9 @@ namespace JobsModule.Application.Service.Implementation
             return jobDTO;
         }
 
-        public IEnumerable<JobDTO> GetJobsAsync(string title, string location, int page, int pageSize)
+        public async Task<IEnumerable<JobDTO>> GetJobsAsync(string? title, string?  location, int page, int pageSize)
         {
-            var jobs = _jobRepository.GetJobsAsync(title, location, page, pageSize);
+            var jobs = await _jobRepository.GetJobsAsync(title, location, page, pageSize);
             var imageBaseAddress = _configuration["ImageBaseAddress"];
 
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo

@@ -1,0 +1,43 @@
+﻿@model JobNeedsWebApp.Models.SearchViewModel
+
+@{
+    ViewData["Title"] = "Browse";
+}
+
+<h1>Browse</h1>
+
+<h4>JobseekerSearchViewModel</h4>
+<hr />
+<div class="column-gap-1">
+    <div class="col-md-4">
+        <form asp-action="Browse">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Page" class="control-label"></label>
+                <input asp-for="Page" class="form-control" value="1" />
+                <span asp-validation-for="Page" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PageSize" class="control-label"></label>
+                <input asp-for="PageSize" class="form-control" value="10" />
+                <span asp-validation-for="PageSize" class="text-danger"></span>
+            </div>
+            <div class="mb-3"></div> <!-- adds gap -->
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" /> |
+                @Html.ActionLink("Back", "Index")
+
+            </div>
+        </form>
+    </div>
+</div>

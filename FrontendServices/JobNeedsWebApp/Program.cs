@@ -31,6 +31,13 @@ builder.Services.AddScoped<AuthHttpClient>(sp =>
     return new AuthHttpClient(client);
 });
 
+builder.Services.AddScoped<JobsHttpClient>(sp =>
+{
+    var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    var client = httpClientFactory.CreateClient("HttpClient");
+    return new JobsHttpClient(client);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

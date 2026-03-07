@@ -1,3 +1,4 @@
+using JobNeedsWebApp.HttpClients;
 using JobNeedsWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,15 +8,25 @@ namespace JobNeedsWebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly JobsHttpClient _jobsHttpClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, JobsHttpClient jobsHttpClient)
         {
             _logger = logger;
+            _jobsHttpClient = jobsHttpClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allOpenJobs = await _jobsHttpClient.GetAllJobsAsync();
+            return View(allOpenJobs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(long id)
+        {
+            var selectedJob = await _jobsHttpClient.GetJobByIdAsync(id);
+            return View(selectedJob);
         }
 
         public IActionResult Privacy()

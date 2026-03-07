@@ -5,6 +5,7 @@ namespace JobsModule.Application.DTOs
     public class JobApplicationDTO
     {
         public long ApplicationId { get; set; }
+        public long JobId { get; set; }
 
         public string JobTitle { get; set; }
 

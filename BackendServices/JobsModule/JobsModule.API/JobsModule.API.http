@@ -1,10 +1,13 @@
 @JobsModule.API_HostAddress = https://localhost:7014/api
 
-GET {{JobsModule.API_HostAddress}}/job/GetAllJobs
+Post {{JobsModule.API_HostAddress}}/job/GetJobs
 Accept: application/json
 Content-type: application/json
 {
-
+  "title":"",
+  "location":"Pune",
+  "page":1,
+  "pageSize": 10
 }
 
 ###

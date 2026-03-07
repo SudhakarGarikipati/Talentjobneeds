@@ -7,7 +7,7 @@ namespace JobsModule.Domain.Interfaces
     {
         Task<bool> ApplyForJobAsync(long jobId, long userId);
 
-        IEnumerable<Job> GetJobsAsync(string? title, string ? location, int page, int pageSize);
+        Task<IEnumerable<Job>> GetJobsAsync(string? title, string ? location, int page, int pageSize);
 
         Task<IEnumerable<Job>> GetEmployerJobsAsync(long employerId, int page, int pageSize);
 

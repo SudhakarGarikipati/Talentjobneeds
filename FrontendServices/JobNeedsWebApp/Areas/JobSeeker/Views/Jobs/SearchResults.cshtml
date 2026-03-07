@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<JobNeedsWebApp.Models.JobViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchResults";
 }
+
 <table class="table table-striped table-hover table-bordered border-primary">
     <thead class="table-primary">
         <tr>
@@ -22,10 +23,7 @@
                 Experience @* @Html.DisplayNameFor(model => model.MaxExperience) *@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxSalary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
+                Salary
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Skills)
@@ -42,6 +40,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CompanyLogo)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody class="table-info">
@@ -64,10 +63,7 @@
                     @item.MinExperience  -  @item.MaxExperience (Yrs)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaxSalary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currency)
+                    @item.MaxSalary (@item.Currency))
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Skills)
@@ -84,8 +80,19 @@
                 <td>
                     <img src="@item.CompanyLogo" />
                 </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { area = "Jobseeker", id = item.JobId }) |
+                    @if (CurrentUser != null)
+                    {
+                        <a asp-controller="Jobs" asp-area="Jobseeker" asp-action="Apply" asp-route-id="@item.JobId" class="btn btn-primary">
+                            Apply
+                        </a>
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+
 

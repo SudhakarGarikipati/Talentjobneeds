@@ -46,13 +46,15 @@ namespace JobNeedsWebApp.Controllers
             }
         }
 
-        public IActionResult Login()
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +67,11 @@ namespace JobNeedsWebApp.Controllers
                 if (user != null && user.Roles.Count > 0)
                 {
                     await GenerateTicket(user);
-                    if (user.Roles.Contains("Admin"))
+                    if (returnUrl != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else if (user.Roles.Contains("Admin"))
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }

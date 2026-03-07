@@ -54,27 +54,26 @@ namespace JobsModule.Infrastructure.Persistence.Repositories
             return job;
         }
 
-        public IEnumerable<Job> GetJobsAsync(string? title, string? location, int page, int pageSize)
+        public async Task<IEnumerable<Job>> GetJobsAsync(string? title, string? location, int page, int pageSize)
         {
-            var jobs =  _context.Jobs
-                .Include(job => job.Employer)
-                .AsQueryable();
+            var jobs = await _context.Jobs
+                .Include(job => job.Employer).ToListAsync();
 
             // Applying filter based on the available parameters.
             if (title != null)
             {
-                jobs = jobs.Where(job => job.JobTitle.Contains(title));
+                jobs = jobs.Where(job => job.JobTitle.Contains(title)).ToList();
             }
 
             if (location != null)
             {
-                jobs = jobs.Where(job => job.Location.Contains(location));
+                jobs = jobs.Where(job => job.Location.Contains(location)).ToList();
             }
 
             //Apply pagination
-            jobs = jobs.Skip((page - 1) * pageSize).Take(pageSize);
+            jobs = jobs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            return [.. jobs];
+            return jobs;
         }
     }
 }
