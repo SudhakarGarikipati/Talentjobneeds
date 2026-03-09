@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Employer\Data\" />
-    <Folder Include="Areas\Employer\Models\" />
     <Folder Include="Areas\Jobseeker\Data\" />
   </ItemGroup>
 

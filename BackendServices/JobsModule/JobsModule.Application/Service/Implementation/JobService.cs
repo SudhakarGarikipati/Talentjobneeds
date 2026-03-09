@@ -26,6 +26,7 @@ namespace JobsModule.Application.Service.Implementation
         {
             var job = _mapper.Map<Job>(jobDto);
             await _jobRepository.AddAsync(job);
+            await _jobRepository.SaveChanges();
             return true;
         }
 
@@ -43,6 +44,7 @@ namespace JobsModule.Application.Service.Implementation
         public async Task<bool> DeleteJobAsync(long jobID)
         {
             await _jobRepository.DeleteAsync(jobID);
+            await _jobRepository.SaveChanges();
             return true;
         }
 
@@ -66,6 +68,12 @@ namespace JobsModule.Application.Service.Implementation
         public async Task<JobDTO> GetJobByIdAsync(long jobId)
         {
             var foundJob = await _jobRepository.GetJobByIdAsync(jobId);
+            if(foundJob == null)
+            {
+                throw new Exception("Job not found.");
+            }
+            var employer = await _jobQueries.GetEmployerAsync(foundJob.EmployerId);
+            foundJob.Employer = employer;
             var imageBaseAddress = _configuration["ImageBaseAddress"];
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
             var jobDTO = _mapper.Map<JobDTO>(foundJob);
@@ -80,6 +88,8 @@ namespace JobsModule.Application.Service.Implementation
             var foundJob = await _jobRepository.GetJobDetailsAsync(Url);
             if (foundJob == null)
                 throw new Exception("Job not found");
+            var employer = await _jobQueries.GetEmployerAsync(foundJob.EmployerId);
+            foundJob.Employer = employer;
             var imageBaseAddress = _configuration["ImageBaseAddress"];
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
             var jobDTO = _mapper.Map<JobDTO>(foundJob);
@@ -113,7 +123,7 @@ namespace JobsModule.Application.Service.Implementation
                 throw new Exception($"Job not found with the provided details {jobId}");
             }
             var job = _mapper.Map<Job>(jobDto);
-            await _jobRepository.UpdateAsync(job);
+            await _jobRepository.SaveChanges();//_jobRepository.UpdateAsync(job);
             return true;
         }
 

@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/jobneeds/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     },
     {
       "DownstreamPathTemplate": "/api/job/{everything}",
@@ -22,7 +22,7 @@
         }
       ],
       "UpstreamPathTemplate": "/job/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     }
   ]
 }

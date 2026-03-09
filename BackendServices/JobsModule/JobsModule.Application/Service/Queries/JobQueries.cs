@@ -1,5 +1,6 @@
 ﻿using JobsModule.Application.DTOs;
 using JobsModule.Application.Service.Abstraction;
+using JobsModule.Domain.Entities;
 using JobsModule.Domain.Interfaces;
 using Mapster;
 using MapsterMapper;
@@ -41,6 +42,12 @@ namespace JobsModule.Application.Service.Queries
                 return job;
             }); ;
             return jobDTOs;
+        }
+
+        public async Task<Employer> GetEmployerAsync(long employerId)
+        {
+            var employer = await _employerRepository.GetByIdAsync(employerId);
+            return employer;
         }
     }
 }

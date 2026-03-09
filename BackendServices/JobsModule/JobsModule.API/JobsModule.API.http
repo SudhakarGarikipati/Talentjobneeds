@@ -1,13 +1,25 @@
+# @JobsModule.API_HostAddress = https://localhost:7014/api
+
+# Post {{JobsModule.API_HostAddress}}/job/GetJobs
+# Accept: application/json
+# Content-type: application/json
+# {
+#   "title":"",
+#   "location":"Pune",
+#   "page":1,
+#   "pageSize": 10
+# }
+
+# ###
+
 @JobsModule.API_HostAddress = https://localhost:7014/api
 
-Post {{JobsModule.API_HostAddress}}/job/GetJobs
-Accept: application/json
-Content-type: application/json
-{
-  "title":"",
-  "location":"Pune",
-  "page":1,
-  "pageSize": 10
-}
+# Put {{JobsModule.API_HostAddress}}/job/UpdateJob
+# Accept: application/json
+# Content-type: application/json
+# {
+# "JobId":2,"EmployerId":1,"JobTitle":"Software Engineer","JobDescription":"\u003Cul\u003E\u003Cli\u003E\u003Cstrong\u003E5\u002B years of professional experience\u003C/strong\u003E in .NET development using C# and ASP.NET (MVC, Web API). \u003C/li\u003E\u003Cli\u003EHands-on experience with \u003Cstrong\u003EOutSystems Low-Code platform\u003C/strong\u003E, including knowledge of Service Studio and Integration Studio. \u003C/li\u003E\u003Cli\u003EStrong understanding of \u003Cstrong\u003EObject-Oriented Programming (OOP)\u003C/strong\u003E and \u003Cstrong\u003ESOLID principles\u003C/strong\u003E. \u003C/li\u003E\u003Cli\u003EProficiency with \u003Cstrong\u003Efront-end technologies\u003C/strong\u003E such as HTML5, CSS3, JavaScript, and modern frameworks (React or Angular or Vue.js). \u003C/li\u003E\u003Cli\u003EExperience with \u003Cstrong\u003ERESTful APIs\u003C/strong\u003E and \u003Cstrong\u003EGraphQL \u003C/strong\u003Eintegration. \u003C/li\u003E\u003Cli\u003EFamiliarity with \u003Cstrong\u003EAzure cloud services\u003C/strong\u003E including Functions, App Services, and Storage. \u003C/li\u003E\u003Cli\u003EKnowledge of \u003Cstrong\u003ERelational Databases\u003C/strong\u003E like SQL Server and \u003Cstrong\u003EEntity Framework\u003C/strong\u003E or other ORM tools. \u003C/li\u003E\u003Cli\u003EExperience in \u003Cstrong\u003EAgile/Scrum\u003C/strong\u003E development environments. \u003C/li\u003E\u003Cli\u003EExposure to \u003Cstrong\u003EMicroservices architecture\u003C/strong\u003E \u003C/li\u003E\u003Cli\u003EStrong problem-solving skills and ability to work collaboratively in a team environment. \u003C/li\u003E\u003Cli\u003EExcellent communication skills, both verbal and written. \u003C/li\u003E\u003C/ul\u003E","Location":"Pune","JobType":"FullTime","MinExperience":1,"MaxExperience":3,"MinSalary":300000,"MaxSalary":500000,"Currency":"INR","Skills":"C#, .NET, ASP.NET Core","PostedDate":"2024-12-12T00:00:00","ExpiryDate":"2025-05-31T00:00:00","Status":"Active","IsActive":false,"Url":"software-engineer-1","CompanyName":"IBM","CompanyLogo":null
+# }
 
-###
+DELETE {{JobsModule.API_HostAddress}}/job/DeleteJob/4
+Accept: application/json

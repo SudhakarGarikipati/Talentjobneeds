@@ -21,7 +21,6 @@ namespace JobsModule.Application.Mapping
                 .Map(dest => dest, src => src.job)
                 .Map(dest => dest, src => src.employer);
 
-
             config.NewConfig<JobDTO, Job>()
                 .Ignore(dest => dest.Employer);
 

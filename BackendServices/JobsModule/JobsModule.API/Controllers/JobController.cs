@@ -30,6 +30,10 @@ namespace JobsModule.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetJobById(long id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid job ID.");
+            }
             var job = await _jobService.GetJobByIdAsync(id);
             if (job == null)
             {
@@ -58,6 +62,66 @@ namespace JobsModule.API.Controllers
                 return NotFound();
             }
             return Ok(jobs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetEmployerJobs([FromBody] EmployerSearchDTO searchJobDto)
+        {
+            if (searchJobDto.EmployerID == 0)
+            {
+                return BadRequest("Please provided valid employer id.");
+            }
+            var jobs = await _jobService.GetEmployerJobsAsync(searchJobDto.EmployerID, searchJobDto.Page, searchJobDto.PageSize);
+            if (jobs == null || !jobs.Any())
+            {
+                return NotFound();
+            }
+            return Ok(jobs);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteJob(long id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid job ID.");
+            }
+            var result = await _jobService.DeleteJobAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateJob([FromBody] JobDTO jobDto)
+        {
+            if (jobDto == null || jobDto.JobId <= 0)
+            {
+                return BadRequest("Invalid job data.");
+            }
+            var result = await _jobService.UpdateJobAsync(jobDto.JobId, jobDto);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return Ok("Update completed successfully.");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddJob([FromBody] JobDTO jobDto)
+        {
+            if (jobDto == null || string.IsNullOrEmpty(jobDto.JobTitle) || jobDto.EmployerId <= 0)
+            {
+                return BadRequest("Invalid job data. Please provide all required fields.");
+            }
+            var result = await _jobService.AddJobAsync(jobDto);
+            if (!result)
+            {
+                return StatusCode(500, "An error occurred while adding the job. Please try again later.");
+            }
+            return Ok();
         }
     }
 }

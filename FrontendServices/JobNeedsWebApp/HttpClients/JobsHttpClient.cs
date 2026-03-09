@@ -1,5 +1,6 @@
 ﻿using Common.Domain.Enums;
 using JobNeedsWebApp.Models;
+using System.Text.Json;
 
 namespace JobNeedsWebApp.HttpClients
 {
@@ -16,7 +17,7 @@ namespace JobNeedsWebApp.HttpClients
         {
             var response = await _httpClient.GetAsync("/job/GetAllJobs");
             response.EnsureSuccessStatusCode();
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadFromJsonAsync<List<JobViewModel>>();
                 return data;
@@ -58,6 +59,49 @@ namespace JobNeedsWebApp.HttpClients
                 return data;
             }
             throw new Exception("Failed to fetch job details. Please try again later.");
+        }
+
+        public async Task<List<JobViewModel>> EmployerSearchJobsAsync(EmploySearchViewModel searchViewModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/job/GetEmployerJobs", searchViewModel);
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadFromJsonAsync<List<JobViewModel>>();
+                return data;
+            }
+            throw new Exception("Failed to fetch job details. Please try again later.");
+        }
+
+        public async Task<string> UpdateJobAsync(JobViewModel jobViewModel)
+        {
+            var json = JsonSerializer.Serialize(jobViewModel);
+            var response = await _httpClient.PutAsJsonAsync($"/job/UpdateJob", jobViewModel);
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                return data;
+            }
+            throw new Exception("Failed to update job details. Please try again later.");
+        }
+
+        public async Task<bool> DeleteJobAsync(long id)
+        {
+            var response = await _httpClient.DeleteAsync($"/job/DeleteJob/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            throw new Exception("Failed to delete job. Please try again later.");
+        }
+
+        public async Task<bool> AddJobAsync(JobViewModel jobViewModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/job/AddJob", jobViewModel);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            throw new Exception("Failed to add job. Please try again later.");
         }
     }
 }
