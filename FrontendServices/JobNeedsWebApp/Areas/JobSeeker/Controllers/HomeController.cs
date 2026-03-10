@@ -1,5 +1,8 @@
 ﻿using JobNeedsWebApp.HttpClients;
+using JobNeedsWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
 {
@@ -14,16 +17,17 @@ namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var allOpenJobs = await _jobsHttpClient.GetAllJobsAsync();
-            //return View(allOpenJobs);
-            return View();
+            var userId = GetCurrentUserId();
+            var applications = await _jobsHttpClient.GetJobApplicationsAsync(userId);
+            return View(applications);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(long id)
+        private long  GetCurrentUserId()
         {
-            var selectedJob = await _jobsHttpClient.GetJobByIdAsync(id);
-            return View(selectedJob);
+            var userData = User.FindFirst(ClaimTypes.UserData)?.Value;
+            var user = JsonSerializer.Deserialize<UserViewModel>(userData);
+            return user != null ? user.UserId : 0;
+
         }
     }
 }

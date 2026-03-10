@@ -81,7 +81,7 @@
                     <img src="@item.CompanyLogo" />
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { area = "Jobseeker", id = item.JobId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.JobId }) |
                     @if (CurrentUser != null)
                     {
                         <a asp-controller="Jobs" asp-area="Jobseeker" asp-action="Apply" asp-route-id="@item.JobId" class="btn btn-primary">

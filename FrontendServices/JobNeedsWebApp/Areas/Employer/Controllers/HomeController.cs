@@ -1,12 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JobNeedsWebApp.HttpClients;
+using JobNeedsWebApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace JobNeedsWebApp.Areas.Employer.Controllers
 {
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly JobsHttpClient _jobsHttpClient;
+
+        public HomeController(JobsHttpClient jobsHttpClient)
         {
-            return View();
+            _jobsHttpClient = jobsHttpClient;
         }
+
+        public async Task<IActionResult> Index()
+        {
+            var empId = 1;// = GetCurrentUserId();
+            var applications = await _jobsHttpClient.GetAllApplicationsAsync(empId);
+            return View(applications);
+        }
+       
     }
 }

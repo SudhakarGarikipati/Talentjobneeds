@@ -1,5 +1,6 @@
 ﻿using Common.Domain.Enums;
 using JobNeedsWebApp.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace JobNeedsWebApp.HttpClients
@@ -102,6 +103,28 @@ namespace JobNeedsWebApp.HttpClients
                 return true;
             }
             throw new Exception("Failed to add job. Please try again later.");
+        }
+
+        public async Task<List<JobApplicationViewModel>> GetJobApplicationsAsync(long id)
+        {
+            var response = await _httpClient.GetAsync($"/job/GetApplications/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadFromJsonAsync<List<JobApplicationViewModel>>();
+                return data;
+            }
+            throw new Exception("Failed to fetch job applications. Please try again later.");
+        }
+
+        public async Task<List<JobApplicationViewModel>> GetAllApplicationsAsync(long id)
+        {
+            var response = await _httpClient.GetAsync($"/job/GetAllApplications/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadFromJsonAsync<List<JobApplicationViewModel>>();
+                return data;
+            }
+            throw new Exception("Failed to fetch job applications. Please try again later.");
         }
     }
 }

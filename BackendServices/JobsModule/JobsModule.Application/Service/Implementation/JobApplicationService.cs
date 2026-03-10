@@ -23,6 +23,20 @@ namespace JobsModule.Application.Service.Implementation
             return await _jobApplicationQueries.GetJobApplications();
         }
 
+        public async Task<IEnumerable<JobApplicationDTO>> GetUserApplications(long id)
+        {
+            var applications =  await _jobApplicationQueries.GetJobApplications();
+            applications = applications.Where(a => a.UserId == id);
+            return applications;
+        }
+
+        public async Task<IEnumerable<JobApplicationDTO>> GetEmployerApplications(long id)
+        {
+            var applications = await _jobApplicationQueries.GetJobApplications();
+            applications = applications.Where(a => a.EmployerId == id);
+            return applications;
+        }
+
         public JobApplicationDTO JobApplicationDTO(long applicationId)
         {
             var jobApplication = _jobApplicationRepository.GetByIdAsync(applicationId);

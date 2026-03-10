@@ -12,5 +12,9 @@ namespace JobsModule.Application.Service.Abstraction
 
         
         JobApplicationDTO JobApplicationDTO(long applicationId);
+
+        Task<IEnumerable<JobApplicationDTO>> GetUserApplications(long id);
+
+        Task<IEnumerable<JobApplicationDTO>> GetEmployerApplications(long id);
     }
 }

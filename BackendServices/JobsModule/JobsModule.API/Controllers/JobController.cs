@@ -123,5 +123,19 @@ namespace JobsModule.API.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<JobApplicationDTO>> GetApplications(long id)
+        {
+            var jobApplications = await _jobApplicationService.GetUserApplications(id);
+            return jobApplications;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<JobApplicationDTO>> GetAllApplications(long id)
+        {
+            var jobApplications = await _jobApplicationService.GetEmployerApplications(id);
+            return jobApplications;
+        }
     }
 }

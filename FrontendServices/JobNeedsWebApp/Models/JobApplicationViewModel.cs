@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JobsModule.Application.DTOs
+namespace JobNeedsWebApp.Models
 {
-    public class JobApplicationDTO
+    public class JobApplicationViewModel
     {
         public long ApplicationId { get; set; }
         public long JobId { get; set; }
@@ -17,8 +17,7 @@ namespace JobsModule.Application.DTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Common.Domain.Enums.EnumJobApplyStatus Status { get; set; }
-        public string Skills { get; internal set; }
-        public string CompanyName { get; internal set; }
-        public long EmployerId { get;  set; }
+        public string Skills { get;  set; }
+        public string CompanyName { get;  set; }
     }
 }

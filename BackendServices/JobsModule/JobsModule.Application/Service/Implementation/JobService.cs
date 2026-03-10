@@ -117,13 +117,14 @@ namespace JobsModule.Application.Service.Implementation
 
         public async Task<bool> UpdateJobAsync(long jobId, JobDTO jobDto)
         {
-            var isJobExist = await _jobRepository.GetJobByIdAsync(jobId);
-            if (isJobExist == null)
+            var job = await _jobRepository.GetJobByIdAsync(jobId);
+            if (job == null)
             {
                 throw new Exception($"Job not found with the provided details {jobId}");
             }
-            var job = _mapper.Map<Job>(jobDto);
-            await _jobRepository.SaveChanges();//_jobRepository.UpdateAsync(job);
+            // Copy values into the tracked entity
+            _mapper.Map(jobDto, job);
+            await _jobRepository.SaveChanges();
             return true;
         }
 

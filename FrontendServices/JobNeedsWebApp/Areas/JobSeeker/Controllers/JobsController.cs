@@ -57,5 +57,12 @@ namespace JobNeedsWebApp.Areas.Jobseeker.Controllers
             }
             return View("SearchResults", searchResults);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(long id)
+        {
+            var selectedJob = await _jobsHttpClient.GetJobByIdAsync(id);
+            return View(selectedJob);
+        }
     }
 }
