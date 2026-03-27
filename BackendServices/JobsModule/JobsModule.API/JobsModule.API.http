@@ -24,10 +24,10 @@
 # Get {{JobsModule.API_HostAddress}}/v1/job/GetApplications/2
 # Accept: application/json
 
-Post {{JobsModule.API_HostAddress}}/v1/job/ApplyForJobAsync
+Post {{JobsModule.API_HostAddress}}/v1/job/ApplyJob
 Accept: application/json
 Content-type: application/json
 {
   "JobId": 1,
-  "UserId": 2,
+  "UserId": 2
 }
