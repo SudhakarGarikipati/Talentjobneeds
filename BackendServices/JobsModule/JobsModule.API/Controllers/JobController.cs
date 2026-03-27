@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace JobsModule.API.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]/[action]")]
+    [ApiVersion("1.0")]
+    [Route("/api/v{version:apiVersion}/[controller]/[action]")]
     public class JobController : Controller
     {
         private readonly IJobService _jobService;
