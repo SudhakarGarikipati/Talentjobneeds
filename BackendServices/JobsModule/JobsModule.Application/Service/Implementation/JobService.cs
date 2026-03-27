@@ -26,12 +26,14 @@ namespace JobsModule.Application.Service.Implementation
         {
             var job = _mapper.Map<Job>(jobDto);
             await _jobRepository.AddAsync(job);
+            await _jobRepository.SaveChanges();
             return true;
         }
 
-        public async Task<EnumJobApplyStatus> ApplyForJobAsync(long jobId, long userId)
+        public async Task<EnumJobApplyStatus> ApplyForJobAsync(ApplyJobDto applyJobDto)
         {
-            var status = await _jobRepository.ApplyForJobAsync(jobId, userId);
+            
+            var status = await _jobRepository.ApplyForJobAsync(applyJobDto.JobId, applyJobDto.UserId);
             if (status)
             {
                 return EnumJobApplyStatus.Applied;
@@ -42,6 +44,7 @@ namespace JobsModule.Application.Service.Implementation
         public async Task<bool> DeleteJobAsync(long jobID)
         {
             await _jobRepository.DeleteAsync(jobID);
+            await _jobRepository.SaveChanges();
             return true;
         }
 
@@ -65,6 +68,12 @@ namespace JobsModule.Application.Service.Implementation
         public async Task<JobDTO> GetJobByIdAsync(long jobId)
         {
             var foundJob = await _jobRepository.GetJobByIdAsync(jobId);
+            if(foundJob == null)
+            {
+                throw new Exception("Job not found.");
+            }
+            var employer = await _jobQueries.GetEmployerAsync(foundJob.EmployerId);
+            foundJob.Employer = employer;
             var imageBaseAddress = _configuration["ImageBaseAddress"];
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
             var jobDTO = _mapper.Map<JobDTO>(foundJob);
@@ -79,6 +88,8 @@ namespace JobsModule.Application.Service.Implementation
             var foundJob = await _jobRepository.GetJobDetailsAsync(Url);
             if (foundJob == null)
                 throw new Exception("Job not found");
+            var employer = await _jobQueries.GetEmployerAsync(foundJob.EmployerId);
+            foundJob.Employer = employer;
             var imageBaseAddress = _configuration["ImageBaseAddress"];
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
             var jobDTO = _mapper.Map<JobDTO>(foundJob);
@@ -88,9 +99,9 @@ namespace JobsModule.Application.Service.Implementation
             return jobDTO;
         }
 
-        public IEnumerable<JobDTO> GetJobsAsync(string title, string location, int page, int pageSize)
+        public async Task<IEnumerable<JobDTO>> GetJobsAsync(string? title, string?  location, int page, int pageSize)
         {
-            var jobs = _jobRepository.GetJobsAsync(title, location, page, pageSize);
+            var jobs = await _jobRepository.GetJobsAsync(title, location, page, pageSize);
             var imageBaseAddress = _configuration["ImageBaseAddress"];
 
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
@@ -106,13 +117,14 @@ namespace JobsModule.Application.Service.Implementation
 
         public async Task<bool> UpdateJobAsync(long jobId, JobDTO jobDto)
         {
-            var isJobExist = await _jobRepository.GetJobByIdAsync(jobId);
-            if (isJobExist == null)
+            var job = await _jobRepository.GetJobByIdAsync(jobId);
+            if (job == null)
             {
                 throw new Exception($"Job not found with the provided details {jobId}");
             }
-            var job = _mapper.Map<Job>(jobDto);
-            await _jobRepository.UpdateAsync(job);
+            // Copy values into the tracked entity
+            _mapper.Map(jobDto, job);
+            await _jobRepository.SaveChanges();
             return true;
         }
 

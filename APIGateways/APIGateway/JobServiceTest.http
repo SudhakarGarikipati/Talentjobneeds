@@ -1,7 +1,9 @@
 ﻿@WebApi_HostAddress = https://localhost:7000
 
-post {{WebApi_HostAddress}}/job/GetAllJobs
+Post {{WebApi_HostAddress}}/job/ApplyForJobAsync
 Accept: application/json
 Content-type: application/json
 {
+  "JobId": 1,
+  "UserId": 2,
 }

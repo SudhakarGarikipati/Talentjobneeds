@@ -10,10 +10,10 @@
         }
       ],
       "UpstreamPathTemplate": "/jobneeds/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     },
     {
-      "DownstreamPathTemplate": "/api/job/{everything}",
+      "DownstreamPathTemplate": "/api/v1/job/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -22,7 +22,7 @@
         }
       ],
       "UpstreamPathTemplate": "/job/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     }
   ]
 }

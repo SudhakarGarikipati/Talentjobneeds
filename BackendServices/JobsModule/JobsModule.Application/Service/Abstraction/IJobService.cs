@@ -5,11 +5,11 @@ namespace JobsModule.Application.Service.Abstraction
 {
     public interface IJobService
     {
-       Task<EnumJobApplyStatus> ApplyForJobAsync(long JobId, long UserId);
+       Task<EnumJobApplyStatus> ApplyForJobAsync(ApplyJobDto applyJobDto);
 
         Task<IEnumerable<JobDTO>> GetEmployerJobsAsync(long employerID, int page, int pageSize);
 
-        IEnumerable<JobDTO> GetJobsAsync(string title, string location, int page, int pageSize);
+        Task<IEnumerable<JobDTO>> GetJobsAsync(string title, string location, int page, int pageSize);
 
         Task<JobDTO> GetJobByIdAsync(long jobID);
 

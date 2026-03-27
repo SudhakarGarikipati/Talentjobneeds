@@ -4,16 +4,16 @@ namespace JobNeedsWebApp.HttpClients
 {
     public class AuthHttpClient
     {
-        private readonly HttpClient httpClient;
+        private readonly HttpClient _httpClient;
 
         public AuthHttpClient(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            _httpClient = httpClient;
         }
 
         public async Task<UserViewModel> LoginAsync(LoginViewModel loginViewModel)
         {
-            var response = await httpClient.PostAsJsonAsync("/jobneeds/login", loginViewModel);
+            var response = await _httpClient.PostAsJsonAsync("/jobneeds/login", loginViewModel);
             response.EnsureSuccessStatusCode();
             if (response.IsSuccessStatusCode)
             {
@@ -25,7 +25,7 @@ namespace JobNeedsWebApp.HttpClients
 
         public async Task<bool> RegisterAsync(SignUpViewModel signUpViewModel)
         {
-            var response = await httpClient.PostAsJsonAsync("/jobneeds/RegisterUser", signUpViewModel);
+            var response = await _httpClient.PostAsJsonAsync("/jobneeds/RegisterUser", signUpViewModel);
             response.EnsureSuccessStatusCode();
             if (response.IsSuccessStatusCode)
             {
