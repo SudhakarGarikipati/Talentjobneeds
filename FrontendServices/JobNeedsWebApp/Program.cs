@@ -36,7 +36,8 @@ builder.Services.AddHttpClient("HttpClient", client =>
         {
             Console.WriteLine($"Request timed out. Waiting {args.Timeout}.");
             return ValueTask.CompletedTask;
-        }
+        },
+        Timeout = TimeSpan.FromSeconds(40)
     });
 
     // 🔁 RETRY    
