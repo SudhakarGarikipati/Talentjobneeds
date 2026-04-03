@@ -17,7 +17,16 @@ namespace Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AuthServiceDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("AuthServiceDb")));
+                options.UseSqlServer(configuration.GetConnectionString("AuthServiceDb"),
+                options =>
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null
+                    );
+                })
+            );
 
             services.AddScoped<IAuthServiceRepo, AuthServiceRepo>();
             services.AddScoped<IAuthAppService, AuthAppService>();

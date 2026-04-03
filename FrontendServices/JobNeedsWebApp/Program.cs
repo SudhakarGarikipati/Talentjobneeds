@@ -1,5 +1,10 @@
-using JobNeedsWebApp.HttpClients;
+﻿using JobNeedsWebApp.HttpClients;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Http.Resilience; // Add this using directive
+using Microsoft.Extensions.Resilience;
+using Polly;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +26,41 @@ builder.Services.AddHttpClient("HttpClient", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["APIAddress"]);
     client.Timeout = TimeSpan.FromMinutes(3);
+})
+.AddResilienceHandler("my-pipeline", pipeline =>
+{
+    // ⏳ TIMEOUT   
+    pipeline.AddTimeout(new HttpTimeoutStrategyOptions
+    {
+        OnTimeout = args =>
+        {
+            Console.WriteLine($"Request timed out. Waiting {args.Timeout}.");
+            return ValueTask.CompletedTask;
+        }
+    });
+
+    // 🔁 RETRY    
+    pipeline.AddRetry(new HttpRetryStrategyOptions
+    {
+        MaxRetryAttempts = 3,
+        Delay = TimeSpan.FromSeconds(2),
+        BackoffType = DelayBackoffType.Exponential
+    });
+
+    // ⚡ CIRCUIT BREAKER
+    pipeline.AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions
+    {
+        FailureRatio = 0.5,
+        MinimumThroughput = 10,
+        BreakDuration = TimeSpan.FromSeconds(30)
+    });
 });
 
 // Register AuthHttpClient as a scoped service
 builder.Services.AddScoped<AuthHttpClient>(sp =>
 {
     var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    var client =  httpClientFactory.CreateClient("HttpClient");
+    var client = httpClientFactory.CreateClient("HttpClient");
     return new AuthHttpClient(client);
 });
 
