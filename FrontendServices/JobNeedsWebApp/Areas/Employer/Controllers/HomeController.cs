@@ -1,8 +1,6 @@
 ﻿using JobNeedsWebApp.HttpClients;
-using JobNeedsWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Text.Json;
 
 namespace JobNeedsWebApp.Areas.Employer.Controllers
 {
@@ -17,10 +15,18 @@ namespace JobNeedsWebApp.Areas.Employer.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var token = GetAccessToken();
+
             var empId = 1;// = GetCurrentUserId();
-            var applications = await _jobsHttpClient.GetAllApplicationsAsync(empId);
+            var applications = await _jobsHttpClient.GetAllApplicationsAsync(empId, token);
             return View(applications);
         }
-       
+
+        private string GetAccessToken()
+        {
+            var token = User.FindFirst("access_token")?.Value;
+            return token != null ? token : string.Empty;
+        }
+
     }
 }

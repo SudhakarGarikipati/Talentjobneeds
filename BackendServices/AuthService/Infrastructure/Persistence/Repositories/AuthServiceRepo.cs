@@ -2,13 +2,13 @@
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class AuthServiceRepo : IAuthServiceRepo
     {
-        private readonly AuthServiceDbContext _authServiceDbContext;
+        private readonly TalentjobneedsDbContext _authServiceDbContext;
 
-        public AuthServiceRepo(AuthServiceDbContext authServiceDbContext)
+        public AuthServiceRepo(TalentjobneedsDbContext authServiceDbContext)
         {
             _authServiceDbContext = authServiceDbContext;
         }
@@ -19,6 +19,21 @@ namespace Infrastructure.Persistance.Repositories
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Email == email);
             return user;
+        }
+
+        public async Task<User> GetUserByRefreshToken(string refreshToken)
+        {
+            var user = await _authServiceDbContext.Users
+                .Include(u => u.RefreshTokens)
+                .SingleOrDefaultAsync(u => u.RefreshTokens.Any(t=>t.Token == refreshToken));
+            return user;
+        }
+
+        public async Task SaveRefreshToken(RefreshToken refreshToken, User user)
+        {
+            refreshToken.UserId = user.UserId;
+            _authServiceDbContext.RefreshTokens.Add(refreshToken);
+            await _authServiceDbContext.SaveChangesAsync();
         }
 
         public Task<bool> Register(User user, string roleName)

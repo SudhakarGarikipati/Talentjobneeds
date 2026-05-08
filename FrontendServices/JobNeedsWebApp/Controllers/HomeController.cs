@@ -18,8 +18,7 @@ namespace JobNeedsWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var allOpenJobs = await _jobsHttpClient.GetAllJobsAsync();
-            return View(allOpenJobs);
+            return View();
         }
 
         [HttpGet]

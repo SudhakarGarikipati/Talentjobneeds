@@ -107,13 +107,25 @@ namespace JobNeedsWebApp.Controllers
         private async Task GenerateTicket(UserViewModel user)
         {
             string userData = JsonSerializer.Serialize(user);
+
+            // Update refresh token cookie
+            HttpContext.Response.Cookies.Append("refreshToken", user.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+
             //Create a list of claims to store user information in the authentication cookie
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.UserData, userData),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, string.Join(',', user.Roles))
+                    new Claim(ClaimTypes.Role, string.Join(',', user.Roles)),
+                    new Claim("access_token", user.Token),
                 };
+
             // Create a ClaimsIdentity with the specified claims and authentication scheme (cookie)
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             // Sign in the user by creating an authentication cookie with the ClaimsPrincipal containing the user's claims

@@ -16,18 +16,18 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-           var user = await _authAppService.Login(loginDto);
-           if (user == null)
-           {
-               return Unauthorized();
-           }
-           return Ok(user);
+            var user = await _authAppService.Login(loginDto);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult RegisterUser([FromBody]SignupDto signupDto)
+        public IActionResult RegisterUser([FromBody] SignupDto signupDto)
         {
             var user = _authAppService.GetUserByMailId(signupDto.Email).Result;
             if (user != null)
@@ -40,6 +40,19 @@ namespace WebApi.Controllers
                 return BadRequest("Registration failed");
             }
             return Ok("Registration successful");
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+        {
+            // Implement token refresh logic here
+            var user = await _authAppService.RefreshToken(refreshToken);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok("Token refreshed");
         }
     }
 }

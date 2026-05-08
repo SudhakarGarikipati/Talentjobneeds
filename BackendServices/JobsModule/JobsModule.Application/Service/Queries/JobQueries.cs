@@ -2,7 +2,6 @@
 using JobsModule.Application.Service.Abstraction;
 using JobsModule.Domain.Entities;
 using JobsModule.Domain.Interfaces;
-using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.Configuration;
 

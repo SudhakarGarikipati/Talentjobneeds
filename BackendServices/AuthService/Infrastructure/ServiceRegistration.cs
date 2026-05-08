@@ -2,8 +2,8 @@
 using Application.Service.Abstraction;
 using Application.Service.Implementation;
 using Domain.Interfaces;
-using Infrastructure.Persistance;
-using Infrastructure.Persistance.Repositories;
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repositories;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +16,17 @@ namespace Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AuthServiceDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("AuthServiceDb")));
+            services.AddDbContext<TalentjobneedsDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("AuthServiceDb"),
+                options =>
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null
+                    );
+                })
+            );
 
             services.AddScoped<IAuthServiceRepo, AuthServiceRepo>();
             services.AddScoped<IAuthAppService, AuthAppService>();
