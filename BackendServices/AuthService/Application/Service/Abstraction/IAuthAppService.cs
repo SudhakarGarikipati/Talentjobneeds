@@ -7,5 +7,7 @@ namespace Application.Service.Abstraction
         Task<UserDto> Login(LoginDto loginDto);
         Task<bool> RegisterUser(SignupDto signupDto, string role);
         Task<UserDto> GetUserByMailId(string mailId);
+
+        Task<UserDto> RefreshToken(string refreshToken);
     }
 }

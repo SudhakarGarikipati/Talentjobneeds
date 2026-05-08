@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using BC = BCrypt.Net.BCrypt;
 
@@ -41,21 +42,54 @@ namespace Application.Service.Implementation
 
         private string HashPassword(string password) => BC.HashPassword(password);
 
-        public Task<UserDto> Login(LoginDto loginDto)
+        public async Task<UserDto> Login(LoginDto loginDto)
         {
-            var user = _authServiceRepo.GetUserByEmail(loginDto.Email);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
+            var user = _authServiceRepo.GetUserByEmail(loginDto.Email) ?? throw new Exception("User not found");
             if (!IsPasswordMatched(loginDto.Password, user.Password))
             {
                 throw new Exception("Invalid password");
             }
             var userDto = _mapper.Map<UserDto>(user);
             string token = GenerateJwtToken(user);
+            RefreshToken refreshToken = GetRefreshToken("127.0.0.0");
+            await _authServiceRepo.SaveRefreshToken(refreshToken, user);
             userDto.Token = token;
-            return Task.FromResult(userDto);
+            userDto.RefreshToken = refreshToken.Token;
+            return userDto;
+        }
+
+        public async Task<UserDto> RefreshToken(string refreshToken)
+        {
+            var user = await _authServiceRepo.GetUserByRefreshToken(refreshToken);
+
+            var rToken = user.RefreshTokens.Single(x => x.Token == refreshToken);
+            if (rToken.IsRevoked || rToken.Expires < DateTime.UtcNow)
+                throw new UnauthorizedAccessException();
+
+            // generate new tokens
+            var newAccessToken = GenerateJwtToken(user);
+            var newRefreshToken = GetRefreshToken("127.0.0.0");
+
+            rToken.IsRevoked = true;
+
+            await _authServiceRepo.SaveRefreshToken(newRefreshToken, user);
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Token = newAccessToken;
+            userDto.RefreshToken = newRefreshToken.Token;
+
+            return userDto;
+        }
+
+        private RefreshToken GetRefreshToken(string IpAddress)
+        {
+            return new RefreshToken
+            {
+                //Id = RandomNumberGenerator.GetInt32(200),
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.UtcNow,
+                CreatedByIp = IpAddress
+            };
         }
 
         private bool IsPasswordMatched(string password, string storedHash)
@@ -71,6 +105,7 @@ namespace Application.Service.Implementation
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var expiry = Convert.ToInt32(_configuration["Jwt:Expiry"]);
             // Implement token generation logic here (e.g., using JWT)
+            // Include necessary claims such as user ID, email, and role
             var claims = new[]
              {
                 new Claim(JwtRegisteredClaimNames.Sub, user.FirstName+user.LastName),
@@ -79,8 +114,8 @@ namespace Application.Service.Implementation
             };
 
             var token = new JwtSecurityToken(
-                issuer: "JobPortal",
-                audience: "JobPortal.Api",
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(expiry),
                 signingCredentials: credentials

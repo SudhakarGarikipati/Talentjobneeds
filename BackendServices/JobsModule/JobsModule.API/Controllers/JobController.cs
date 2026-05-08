@@ -1,5 +1,6 @@
 ﻿using JobsModule.Application.DTOs;
 using JobsModule.Application.Service.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobsModule.API.Controllers
@@ -125,6 +126,7 @@ namespace JobsModule.API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IEnumerable<JobApplicationDTO>> GetApplications(long id)
         {

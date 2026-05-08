@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance;
+namespace Infrastructure.Persistence;
 
-public partial class AuthServiceDbContext : DbContext
+public partial class TalentjobneedsDbContext : DbContext
 {
-    public AuthServiceDbContext(DbContextOptions<AuthServiceDbContext> options)
+    public TalentjobneedsDbContext(DbContextOptions<TalentjobneedsDbContext> options)
         : base(options)
     {
     }
 
     public virtual DbSet<Admin> Admins { get; set; }
+
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -24,19 +26,43 @@ public partial class AuthServiceDbContext : DbContext
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE488BD10827C");
+            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE4885885ACA6");
 
             entity.HasOne(d => d.User).WithMany(p => p.Admins)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Admins__UserId__19DFD96B");
+                .HasConstraintName("FK__Admins__UserId__6477ECF3");
+        });
+
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__RefreshT__3214EC071B34F8E8");
+
+            entity.ToTable("RefreshToken");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Created).HasColumnType("datetime");
+            entity.Property(e => e.CreatedByIp)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Expires).HasColumnType("datetime");
+            entity.Property(e => e.Token)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_Token_userId");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1AEE9BEAE4");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A6F6607E1");
 
-            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B6160B10FD3F3").IsUnique();
+            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B61604B570280").IsUnique();
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.RoleName)
@@ -47,9 +73,9 @@ public partial class AuthServiceDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C7F2BE359");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CFD300BDE");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053423E84C80").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D105349646EF59").IsUnique();
 
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
@@ -81,11 +107,11 @@ public partial class AuthServiceDbContext : DbContext
                     r => r.HasOne<Role>().WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserRoles__RoleI__2180FB33"),
+                        .HasConstraintName("FK__UserRoles__RoleI__70DDC3D8"),
                     l => l.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserRoles__UserI__22751F6C"),
+                        .HasConstraintName("FK__UserRoles__UserI__71D1E811"),
                     j =>
                     {
                         j.HasKey("UserId", "RoleId");

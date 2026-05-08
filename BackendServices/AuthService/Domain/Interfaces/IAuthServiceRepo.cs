@@ -7,5 +7,9 @@ namespace Domain.Interfaces
         Task<bool> Register(User user, string role);
 
         User GetUserByEmail(string email);
+
+        Task SaveRefreshToken(RefreshToken refreshToken, User user);
+
+        Task<User> GetUserByRefreshToken(string refreshToken);
     }
 }

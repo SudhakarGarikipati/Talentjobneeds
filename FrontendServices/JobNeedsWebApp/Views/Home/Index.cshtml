@@ -1,91 +1,26 @@
-﻿@model IEnumerable<JobNeedsWebApp.Models.JobViewModel>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Home page";
 }
-<table class="table table-striped table-hover table-bordered border-primary">
-    <thead class="table-primary">
-        <tr>
-            <th hidden="hidden">
-                @Html.DisplayNameFor(model => model.JobId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobType)
-            </th>
-            <th>
-                Experience @* @Html.DisplayNameFor(model => model.MaxExperience) *@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxSalary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Skills)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyLogo)
-            </th>
-        </tr>
-    </thead>
-    <tbody class="table-info">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td hidden="hidden">
-                    @Html.DisplayFor(modelItem => item.JobId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobType)
-                </td>
-                <td>
-                    @item.MinExperience  -  @item.MaxExperience (Yrs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxSalary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Skills)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Url)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompanyName)
-                </td>
-                <td>
-                    <img src="@item.CompanyLogo" />
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <h3>Smart Job Search Tips</h3>
+        <hr/>
+        
+        <p>Start with specific job titles or skills for accurate results.</p>
+      
+        <p>Use filters to narrow down roles that match your goals.</p>  
+        
+        <p>Highlight your top skills in your resume for better visibility.</p>
+    
+        <p>Stay active — new jobs are added daily.</p>
+       
+        <p>Apply consistently to increase your chances.</p>
+
+        <b>Access Requirement</b>
+        <p>To explore job listings and apply, please log in to your account.
+        Your personalized job recommendations will appear once you sign in.</p>
+    </div>
+}
+
 

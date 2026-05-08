@@ -1,6 +1,7 @@
 ﻿using Common.Domain.Enums;
 using JobNeedsWebApp.Models;
-using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace JobNeedsWebApp.HttpClients
@@ -53,7 +54,7 @@ namespace JobNeedsWebApp.HttpClients
 
         public async Task<List<JobViewModel>> SearchJobsAsync(SearchViewModel searchViewModel)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/job/GetJobs", searchViewModel);
+            var response =await _httpClient.PostAsJsonAsync($"/job/GetJobs", searchViewModel);
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadFromJsonAsync<List<JobViewModel>>();
@@ -116,8 +117,10 @@ namespace JobNeedsWebApp.HttpClients
             throw new Exception("Failed to fetch job applications. Please try again later.");
         }
 
-        public async Task<List<JobApplicationViewModel>> GetAllApplicationsAsync(long id)
+        public async Task<List<JobApplicationViewModel>> GetAllApplicationsAsync(long id, string token)
         {
+            // Set the Authorization header with the Bearer token
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.GetAsync($"/job/GetAllApplications/{id}");
             if (response.IsSuccessStatusCode)
             {

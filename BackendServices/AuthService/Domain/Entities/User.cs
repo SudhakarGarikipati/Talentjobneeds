@@ -25,5 +25,7 @@ public partial class User
 
     public virtual ICollection<Admin> Admins { get; set; } = new List<Admin>();
 
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

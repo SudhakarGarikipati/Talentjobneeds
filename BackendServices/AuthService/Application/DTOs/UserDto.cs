@@ -16,6 +16,8 @@
 
         public string Token { get; set; }
 
+        public string RefreshToken { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         public bool? IsActive { get; set; }
