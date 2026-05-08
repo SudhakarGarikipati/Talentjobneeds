@@ -10,7 +10,10 @@
         }
       ],
       "UpstreamPathTemplate": "/jobneeds/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": null
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/job/{everything}",
@@ -22,7 +25,11 @@
         }
       ],
       "UpstreamPathTemplate": "/job/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
   ]
 }
