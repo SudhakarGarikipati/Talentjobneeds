@@ -1,5 +1,9 @@
 ﻿@WebApi_HostAddress = https://localhost:7000
 
+
+# Get {{WebApi_HostAddress}}/job/GetApplications/2
+# Accept: application/json
+
 Post {{WebApi_HostAddress}}/job/ApplyJob
 Accept: application/json
 Content-type: application/json
@@ -7,3 +11,4 @@ Content-type: application/json
   "JobId": 1,
   "UserId": 2
 }
+###
