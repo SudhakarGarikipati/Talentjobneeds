@@ -3,6 +3,8 @@ using Common.Infrastructure.Persistence.Repositories;
 using JobsModule.Domain.Entities;
 using JobsModule.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace JobsModule.Infrastructure.Persistence.Repositories
 {
@@ -11,7 +13,8 @@ namespace JobsModule.Infrastructure.Persistence.Repositories
 
         private readonly TalentjobneedsDbContext _context;
 
-        public JobRepository(TalentjobneedsDbContext db) : base(db)
+        // Constructor to initialize the repository with the database context and memory cache.
+        public JobRepository(TalentjobneedsDbContext db, IMemoryCache memoryCache, ILogger<JobRepository> logger) : base(db, memoryCache, logger)
         {
             _context = db;
         }

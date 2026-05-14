@@ -23,6 +23,11 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+builder.Services.AddMemoryCache(options =>
+{
+    options.SizeLimit = 4094; // Set the size limit for the cache (in bytes)
+});
+
 JobServiceRegistration.RegisteredServices(builder.Services, builder.Configuration);
 
 builder.Services.AddAuthentication("Bearer")

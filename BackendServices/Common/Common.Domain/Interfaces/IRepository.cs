@@ -6,6 +6,8 @@
 
         Task<List<TEntity>> GetAllAsync();
 
+        Task<(List<TEntity>, int)> GetAllAsync(int pageNumber, int pageSize, string? sortBy);
+
         Task AddAsync(TEntity entity);
 
         Task UpdateAsync(TEntity entity);

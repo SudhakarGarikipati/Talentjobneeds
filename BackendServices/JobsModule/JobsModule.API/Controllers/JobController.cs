@@ -1,4 +1,5 @@
 ﻿using JobsModule.Application.DTOs;
+using JobsModule.Application.DTOs.Common;
 using JobsModule.Application.Service.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace JobsModule.API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("/api/v{version:apiVersion}/[controller]/[action]")]
+    [Route("/api/v{version:apiVersion}/[controller]")]
     public class JobController : Controller
     {
         private readonly IJobService _jobService;
@@ -18,7 +19,23 @@ namespace JobsModule.API.Controllers
             _jobApplicationService = jobApplicationService;
         }
 
-        [HttpGet]
+        // Pagination and filtering can be added to this endpoint as needed
+        // For example, you can accept query parameters for page number, page size, job title, location, etc.
+        // Example: GET /api/v1/job?title=developer&location=remote&page=1&pageSize=10
+        // Offset pagination can be implemented in the service layer to handle large datasets efficiently.
+        // Keyset-based pagination can also be considered for better performance in certain scenarios.
+        [HttpGet("jobs")]
+        public async Task<IActionResult> GetAllJobs([AsParameters] QueryFilter queryFilter)
+        {
+            var jobs = await _jobService.GetAllJobsAsync(queryFilter);
+            if (jobs == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobs);
+        }
+
+        [HttpGet("jobs/all")]
         public async Task<IActionResult> GetAllJobs()
         {
             var jobs = await _jobService.GetAllJobsAsync();
@@ -29,8 +46,8 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetJobById(long id)
+        [HttpGet("jobs/{id:int}")]
+        public async Task<IActionResult> GetJobById(int id)
         {
             if (id <= 0)
             {
@@ -127,15 +144,15 @@ namespace JobsModule.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("Applications/{id:long}")]
         public async Task<IEnumerable<JobApplicationDTO>> GetApplications(long id)
         {
             var jobApplications = await _jobApplicationService.GetUserApplications(id);
             return jobApplications;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<JobApplicationDTO>> GetAllApplications(long id)
+        [HttpGet("EmployerApplications/{id:long}")]
+        public async Task<IEnumerable<JobApplicationDTO>> GetEmployerApplications(long id)
         {
             var jobApplications = await _jobApplicationService.GetEmployerApplications(id);
             return jobApplications;
