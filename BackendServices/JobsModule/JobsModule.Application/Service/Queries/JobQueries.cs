@@ -1,4 +1,5 @@
 ﻿using JobsModule.Application.DTOs;
+using JobsModule.Application.DTOs.Common;
 using JobsModule.Application.Service.Abstraction;
 using JobsModule.Domain.Entities;
 using JobsModule.Domain.Interfaces;
@@ -27,21 +28,49 @@ namespace JobsModule.Application.Service.Queries
             var imageBaseAddress = _configuration["ImageBaseAddress"];
             var jobs = await _jobRepository.GetAllAsync();
             var employers = await _employerRepository.GetAllAsync();
+            var result = (from job in jobs
+                          join employer in employers on job.EmployerId equals employer.EmployerId
+                          select (job, employer));
+            // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
+            var jobDTOs = _mapper.Map<List<JobDTO>>(result).Select(job =>
+            {
+                job.CompanyLogo = !string.IsNullOrEmpty(job.CompanyLogo)
+                    ? $"{imageBaseAddress}{job.CompanyLogo}"
+                    : null;
+                return job;
+            });
+            return jobDTOs;
+        }
+
+        public async Task<PagedResponse<JobDTO>> GetAllJobAsync(QueryFilter queryFilter)
+        {
+            var imageBaseAddress = _configuration["ImageBaseAddress"];
+            var (jobs, tototalRecords) = await _jobRepository.GetAllAsync(queryFilter.PageNumber, queryFilter.PageSize, queryFilter.SortBy);
+            var employers = await _employerRepository.GetAllAsync();
 
             var result = (from job in jobs
                           join employer in employers on job.EmployerId equals employer.EmployerId
                           select (job, employer));
 
             // Map jobs to JobDTO and append ImageBaseAddress to CompanyLogo
-            var jobDTOs =  _mapper.Map<List<JobDTO>>(result).Select(job =>
+            var jobDTOs = _mapper.Map<List<JobDTO>>(result).Select(job =>
             {
                 job.CompanyLogo = !string.IsNullOrEmpty(job.CompanyLogo)
                     ? $"{imageBaseAddress}{job.CompanyLogo}"
                     : null;
                 return job;
-            }); ;
-            return jobDTOs;
-        }
+            }); 
+            //return jobDTOs;
+
+            return new PagedResponse<JobDTO>
+            {
+                Data = (IReadOnlyList<JobDTO>)jobDTOs,
+                PageNumber = queryFilter.PageNumber,
+                PageSize = queryFilter.PageSize,
+                TotalRecords = tototalRecords,
+                TotalPages = (int)Math.Ceiling(tototalRecords / (double)queryFilter.PageSize)
+            };
+         }
 
         public async Task<Employer> GetEmployerAsync(long employerId)
         {

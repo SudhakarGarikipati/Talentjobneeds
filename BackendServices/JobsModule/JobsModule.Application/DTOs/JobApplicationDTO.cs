@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Common.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace JobsModule.Application.DTOs
 {
@@ -16,7 +17,7 @@ namespace JobsModule.Application.DTOs
         public DateTime? ApplicationDate { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public Common.Domain.Enums.EnumJobApplyStatus Status { get; set; }
+        public EnumJobApplyStatus Status { get; set; }
         public string Skills { get; internal set; }
         public string CompanyName { get; internal set; }
         public long EmployerId { get;  set; }

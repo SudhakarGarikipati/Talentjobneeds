@@ -1,5 +1,6 @@
 ﻿using Common.Domain.Enums;
 using JobsModule.Application.DTOs;
+using JobsModule.Application.DTOs.Common;
 using JobsModule.Application.Service.Abstraction;
 using JobsModule.Domain.Entities;
 using JobsModule.Domain.Interfaces;
@@ -125,6 +126,12 @@ namespace JobsModule.Application.Service.Implementation
             _mapper.Map(jobDto, job);
             await _jobRepository.SaveChanges();
             return true;
+        }
+
+        public async Task<PagedResponse<JobDTO>> GetAllJobsAsync(QueryFilter queryFilter)
+        {
+            var jobDTOs = await _jobQueries.GetAllJobAsync(queryFilter);
+            return jobDTOs;
         }
 
         public async Task<IEnumerable<JobDTO>> GetAllJobsAsync()

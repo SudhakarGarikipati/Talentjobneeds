@@ -1,5 +1,6 @@
 ﻿using Common.Domain.Enums;
 using JobsModule.Application.DTOs;
+using JobsModule.Application.DTOs.Common;
 
 namespace JobsModule.Application.Service.Abstraction
 {
@@ -22,5 +23,7 @@ namespace JobsModule.Application.Service.Abstraction
         Task<bool> UpdateJobAsync(long jobid, JobDTO job);
 
         Task<IEnumerable<JobDTO>> GetAllJobsAsync();
+
+        Task<PagedResponse<JobDTO>> GetAllJobsAsync(QueryFilter queryFilter);
     }
 }
