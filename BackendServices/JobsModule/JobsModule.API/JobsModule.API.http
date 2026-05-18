@@ -31,4 +31,5 @@
 #   "JobId": 1,
 #   "UserId": 2
 # }
-GET {{JobsModule.API_HostAddress}}/v1/job/jobs
+# GET {{JobsModule.API_HostAddress}}/v1/job/jobs/all
+GET {{JobsModule.API_HostAddress}}/v1/app
