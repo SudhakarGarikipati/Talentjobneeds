@@ -61,7 +61,7 @@ namespace JobsModule.API.Controllers
             return Ok(job);
         }
 
-        [HttpPost]
+        [HttpPost("Application")]
         public async Task<IActionResult> ApplyJob([FromBody] ApplyJobDto applyJobDto)
         {
             var applyStatus = await _jobService.ApplyForJobAsync(applyJobDto);
@@ -83,7 +83,7 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
-        [HttpPost]
+        [HttpGet("jobs/employer")]
         public async Task<IActionResult> GetEmployerJobs([FromBody] EmployerSearchDTO searchJobDto)
         {
             if (searchJobDto.EmployerID == 0)
@@ -128,7 +128,7 @@ namespace JobsModule.API.Controllers
             return Ok("Update completed successfully.");
         }
 
-        [HttpPost]
+        [HttpPost("jobs")]
         public async Task<IActionResult> AddJob([FromBody] JobDTO jobDto)
         {
             if (jobDto == null || string.IsNullOrEmpty(jobDto.JobTitle) || jobDto.EmployerId <= 0)
