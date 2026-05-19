@@ -122,7 +122,7 @@ namespace JobNeedsWebApp.Controllers
                 {
                     new Claim(ClaimTypes.UserData, userData),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, string.Join(',', user.Roles)),
+                    new Claim(ClaimTypes.Role, user.Roles[0]),
                     new Claim("access_token", user.Token),
                 };
 

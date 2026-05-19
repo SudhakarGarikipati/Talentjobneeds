@@ -32,4 +32,4 @@
 #   "UserId": 2
 # }
 # GET {{JobsModule.API_HostAddress}}/v1/job/jobs/all
-GET {{JobsModule.API_HostAddress}}/v1/app
+GET https://localhost:7014/api/v1/job/Applications/2 //{{JobsModule.API_HostAddress}}/v1/job/Applications/2

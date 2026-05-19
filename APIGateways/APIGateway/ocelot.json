@@ -29,6 +29,13 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
+      },
+
+      "RateLimitOptions": {
+
+        "EnableRateLimiting": false,
+        "Period": "1s",
+        "Limit": 20
       }
     }
   ]

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
+// ------------------------------------------------------------
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -26,12 +26,16 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+
+
 builder.Services.AddOcelot();
 
 
 var app = builder.Build();
 
 app.UseAuthentication(); // Add authentication middleware
+
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 app.UseOcelot().Wait();

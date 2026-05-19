@@ -53,24 +53,46 @@ JobServiceRegistration.RegisteredServices(builder.Services, builder.Configuratio
 // ------------------------------------------------------------
 // 7. JWT Authentication
 // ------------------------------------------------------------
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "Bearer";
+    options.DefaultChallengeScheme = "Bearer";
+})
+.AddJwtBearer("Bearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
 
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+// Define authorization policies for different roles
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Jobseeker", policy =>
+    {
+        //policy.AddAuthenticationSchemes("Bearer");
+        policy.RequireRole("Jobseeker");
     });
-
-builder.Services.AddAuthorization();
+    options.AddPolicy("Admin", policy =>
+    {
+        //policy.AddAuthenticationSchemes("Bearer");
+        policy.RequireRole("Admin");
+    });
+    options.AddPolicy("Employer", policy =>
+    {
+        //policy.AddAuthenticationSchemes("Bearer");
+        policy.RequireRole("Employer");
+    });
+});
+//builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
