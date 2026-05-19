@@ -35,6 +35,7 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
+        [Authorize(Roles = "Jobseeker, Admin, Employer")]
         [HttpGet("jobs/all")]
         public async Task<IActionResult> GetAllJobs()
         {
@@ -46,6 +47,7 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
+        [Authorize(Roles = "Jobseeker, Admin, Employer")]
         [HttpGet("jobs/{id:int}")]
         public async Task<IActionResult> GetJobById(int id)
         {
@@ -61,6 +63,7 @@ namespace JobsModule.API.Controllers
             return Ok(job);
         }
 
+        [Authorize(Roles = "Jobseeker")]
         [HttpPost("Application")]
         public async Task<IActionResult> ApplyJob([FromBody] ApplyJobDto applyJobDto)
         {
@@ -68,6 +71,7 @@ namespace JobsModule.API.Controllers
             return Ok(applyStatus);
         }
 
+        [Authorize(Roles = "Jobseeker, Admin, Employer")]
         [HttpPost]
         public async Task<IActionResult> GetJobs([FromBody] SearchJobDto searchJobDto)
         {
@@ -83,6 +87,7 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpGet("jobs/employer")]
         public async Task<IActionResult> GetEmployerJobs([FromBody] EmployerSearchDTO searchJobDto)
         {
@@ -98,6 +103,7 @@ namespace JobsModule.API.Controllers
             return Ok(jobs);
         }
 
+        [Authorize(Roles = "Employer,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteJob(long id)
         {
@@ -113,6 +119,7 @@ namespace JobsModule.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPut]
         public async Task<IActionResult> UpdateJob([FromBody] JobDTO jobDto)
         {
@@ -128,6 +135,7 @@ namespace JobsModule.API.Controllers
             return Ok("Update completed successfully.");
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPost("jobs")]
         public async Task<IActionResult> AddJob([FromBody] JobDTO jobDto)
         {
@@ -143,7 +151,7 @@ namespace JobsModule.API.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize(Roles="Jobseeker")]
         [HttpGet("Applications/{id:long}")]
         public async Task<IEnumerable<JobApplicationDTO>> GetApplications(long id)
         {
@@ -151,6 +159,7 @@ namespace JobsModule.API.Controllers
             return jobApplications;
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpGet("EmployerApplications/{id:long}")]
         public async Task<IEnumerable<JobApplicationDTO>> GetEmployerApplications(long id)
         {

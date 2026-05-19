@@ -108,7 +108,7 @@ namespace JobNeedsWebApp.HttpClients
 
         public async Task<List<JobApplicationViewModel>> GetJobApplicationsAsync(long id)
         {
-            var response = await _httpClient.GetAsync($"/job/GetApplications/{id}");
+            var response = await _httpClient.GetAsync($"/job/Applications/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadFromJsonAsync<List<JobApplicationViewModel>>();

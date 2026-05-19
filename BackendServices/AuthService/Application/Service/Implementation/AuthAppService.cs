@@ -108,9 +108,10 @@ namespace Application.Service.Implementation
             // Include necessary claims such as user ID, email, and role
             var claims = new[]
              {
-                new Claim(JwtRegisteredClaimNames.Sub, user.FirstName+user.LastName),
-                new Claim(JwtRegisteredClaimNames.Email,user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.FirstName+user.LastName), // Subject claim (can be user ID or username)
+                new Claim(JwtRegisteredClaimNames.Email,user.Email), // Email claim
+                new Claim(ClaimTypes.Role, user.Roles.FirstOrDefault().RoleName), // Add roles as a claim
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())// Unique identifier for the token
             };
 
             var token = new JwtSecurityToken(
