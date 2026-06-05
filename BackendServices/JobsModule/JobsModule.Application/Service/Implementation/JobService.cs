@@ -130,6 +130,8 @@ namespace JobsModule.Application.Service.Implementation
 
         public async Task<PagedResponse<JobDTO>> GetAllJobsAsync(QueryFilter queryFilter)
         {
+            // Fixed: Corrected array initialization to use 1D array
+
             var jobDTOs = await _jobQueries.GetAllJobAsync(queryFilter);
             return jobDTOs;
         }

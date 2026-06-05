@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/jobneeds/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put", "OPTIONS" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": null
       }

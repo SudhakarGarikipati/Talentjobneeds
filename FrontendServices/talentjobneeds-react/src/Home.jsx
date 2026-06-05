@@ -1,9 +1,11 @@
+import React from "react";
+
 const Home = () => {
     return(
         <div className="text-center">
         <h1 className="display-4">Welcome</h1>
+
         <h3>Smart Job Search Tips</h3>
-        <hr/>
         
         <p>Start with specific job titles or skills for accurate results.</p>
       
