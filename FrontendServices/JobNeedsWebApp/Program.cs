@@ -3,6 +3,7 @@ using JobNeedsWebApp.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Http.Resilience; // Add this using directive
 using Polly;
+using Polly.Fallback;
 
 internal class Program
 {

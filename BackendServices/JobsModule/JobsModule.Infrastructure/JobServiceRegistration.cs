@@ -21,6 +21,7 @@ namespace JobsModule.Infrastructure
             services.AddDbContext<TalentjobneedsDbContext>(option =>
             {
                 option.UseSqlServer(configuration.GetConnectionString("TalentjobneedsDb"));
+                option.EnableSensitiveDataLogging();
             });
 
             services.AddScoped<IJobApplicationQueries, JobApplicationQueries>();

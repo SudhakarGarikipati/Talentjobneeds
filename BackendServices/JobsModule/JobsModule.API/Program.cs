@@ -1,6 +1,7 @@
 ﻿using JobsModule.API;
 using JobsModule.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -19,6 +20,8 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
     options.ReportApiVersions = true;
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader());
 });
 
 // ------------------------------------------------------------
@@ -107,12 +110,12 @@ app.UseAuthorization();
 // ------------------------------------------------------------
 // 9. Swagger UI with Version Dropdown
 // ------------------------------------------------------------
-var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 app.UseSwagger(); // generates JSON
-
 app.UseSwaggerUI(options =>
 {
+    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
     foreach (var desc in provider.ApiVersionDescriptions)
     {
         options.SwaggerEndpoint(
